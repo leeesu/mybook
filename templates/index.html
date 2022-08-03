@@ -23,7 +23,7 @@
 
         .mytitle {
             width: 100%;
-            height: 250px;
+            height: 150px;
 
             background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.wallpaperuse.com/wallp/72-723787_m.jpg');
             background-position: center;
@@ -42,43 +42,57 @@
             width: 95%;
             margin: 30px auto 50px auto;
 
-            }
+        }
 
 
         .mybtns > button {
             margin-right: 10px;
         }
 
-        #trip-box{
+        #trip-box {
             margin-top: 100px;
         }
     </style>
     <script>
+
         $(document).ready(function () {
+
         });
 
+        let book_num ={{ book_num }}
+        function request_num(){
+
+        }
 
     </script>
 </head>
 
 <body>
-<div class="mytitle">
-    <h1>북로그</h1>
+<div class="mytitle" onclick="window.location.href='/'">
+    <h1>북트립</h1>
+    <small class="text-muted" id="subtitle">BOOK TRIP : 책으로 떠나는 여행</small>
 </div>
-    <div class="wrap">
-        <div id="card-box" class="row row-cols-1 row-cols-md-5 g-4">
-              {% for row in rows %}
+<div class="wrap">
+    <div id="card-box" class="row row-cols-1 row-cols-md-5 g-4">
+        {% for row in rows %}
             <div class="col">
 
                 <div class="card">
+
+                    {% set book_image = row['coverLargeUrl'] %}
+                    <a href="detail/{{ row.title }}">
+                        <img src="{{ book_image }}" class="card-img-top" alt="..."></a>
 
 
                 </div>
 
             </div>
+        {% endfor %}
     </div>
+</div>
 
-    </div>
+
+</div>
 </body>
 
 </html>

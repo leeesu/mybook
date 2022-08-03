@@ -21,6 +21,22 @@
             font-family: 'Gowun Dodum', sans-serif;
         }
 
+        .mytitle {
+            width: 100%;
+            height: 150px;
+
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.wallpaperuse.com/wallp/72-723787_m.jpg');
+            background-position: center;
+            background-size: cover;
+
+            color: white;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
         #trip-box {
             width: 95%;
             max-width: 600px;
@@ -36,51 +52,54 @@
             padding: 20px;
             box-shadow: 0px 0px 3px 0px gray;
 
-        }
 
-        #dog-icon {
-            width: 20px;
-            margin-right: 10px;
         }
 
         .review-box {
             width: 95%;
-            max-width: 700px;
+            max-width: 600px;
             margin: 10px auto 0px auto;
+            box-shadow: 0px 0px 3px 0px gray;
+
+        }
+
+        #desc {
+            font-size: 11px;
+        }
+
+        #subtitle {
+            font-weight: bold;
 
         }
 
 
     </style>
     <script>
-        $(document).ready(function () {
 
-        });
 
     </script>
 </head>
 <body>
-<nav class="navbar fixed-top bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#"><img
-                src="https://cdn-icons.flaticon.com/png/512/608/premium/608502.png?token=exp=1659354942~hmac=aa2ddd0e8991d95bc4e9e6358a215449"
-                id="dog-icon">도그트립</a>
-    </div>
-</nav>
-<div class="card mb-3" id="trip-box">
-  <div class="row no-gutters">
-    <div class="col-md-4">
-      <img src="https://bimage.interpark.com/partner/goods_image/3/3/3/2/355003332s.jpg" class="card-img" alt="...">
-    </div>
-    <div class="col-md-8">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-      </div>
-    </div>
-  </div>
+<div class="mytitle" onclick="window.location.href='/'">
+    <h1>북트립</h1>
+    <small class="text-muted" id="subtitle">BOOK TRIP : 책으로 떠나는 여행</small>
 </div>
+<div class="card mb-3" id="trip-box">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            {% for bookdetail in response.item %}
+                <img src="{{ bookdetail.coverLargeUrl }}" class="card-img" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ bookdetail.title }}</h5>
+                        <p class="card-text"><small class="text-muted">저자 : {{ bookdetail.author }}</small></p>
+                        <p class="card-text" id="desc">{{ bookdetail.description }}</p>
+                    </div>
+                </div>
+                </div>
+                </div>
+            {% endfor %}
 <div class="posting-box" id="post-box">
     <div class="form-floating mb-3">
         <input id="review" type="text" class="form-control" placeholder="name@example.com">
@@ -97,10 +116,10 @@
         </select>
 
     </div>
-    <button type="button" class="btn btn-outline-success"id="review-posting" onclick="review_posting()">등록하기</button>
+    <button type="button" class="btn btn-outline-success" id="review-posting" onclick="save_review()">등록하기</button>
 </div>
 <div class="review-box" id="review-list">
-    <div class="border border-light p-2 mb-2 border-opacity-25">This is 25% opacity success border</div>
+    <div class="border border-light p-2 mb-2 border-opacity-25" id="review-area"></div>
 </div>
 
 </div>
