@@ -1,5 +1,7 @@
+import requests
 from pymongo import MongoClient
 import certifi
+
 ca = certifi.where()
 import jwt
 import datetime
@@ -62,8 +64,8 @@ def sign_in():
 
     if result is not None:
         payload = {
-         'id': username_receive,
-         'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
+            'id': username_receive,
+            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
@@ -79,12 +81,12 @@ def sign_up():
     password_receive = request.form['password_give']
     password_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
     doc = {
-        "username": username_receive,                               # 아이디
-        "password": password_hash,                                  # 비밀번호
-        "profile_name": username_receive,                           # 프로필 이름 기본값은 아이디
-        "profile_pic": "",                                          # 프로필 사진 파일 이름
-        "profile_pic_real": "profile_pics/profile_placeholder.png", # 프로필 사진 기본 이미지
-        "profile_info": ""                                          # 프로필 한 마디
+        "username": username_receive,  # 아이디
+        "password": password_hash,  # 비밀번호
+        "profile_name": username_receive,  # 프로필 이름 기본값은 아이디
+        "profile_pic": "",  # 프로필 사진 파일 이름
+        "profile_pic_real": "profile_pics/profile_placeholder.png",  # 프로필 사진 기본 이미지
+        "profile_info": ""  # 프로필 한 마디
     }
     db.users.insert_one(doc)
     return jsonify({'result': 'success'})
@@ -139,6 +141,28 @@ def update_like():
         return jsonify({"result": "success", 'msg': 'updated'})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
+
+@app.route('/main')
+def main():
+    key = 'AD76BB131FF7E99097AB027CF51EBA025507AA02532786510CF4FC402A45D0FD'
+    url = 'http://book.interpark.com/api/bestSeller.api?key=' + key + '&categoryId=100&output=json'
+    r = requests.get(url)
+    response = r.json()  # 결과를 json형태로 바꿔 response에 담아준다.
+    rows = response['item']
+
+    return render_template("index.html", rows=rows)
+
+
+@app.route('/detail/<keyword>')
+def detail(keyword):
+    url = f"http://book.interpark.com/api/search.api?key=AD76BB131FF7E99097AB027CF51EBA025507AA02532786510CF4FC402A45D0FD&query={keyword}&start=1&maxResults=1&output=json"
+
+    r = requests.get(url)
+    response = r.json()  # 결과를 json형태로 바꿔 response에 담아준다.
+    # insert
+
+    return render_template("detail.html", response=response, title=keyword)  # parameter를 넣어서 보내준다.
+    # 앞의 변수이름 render parameter이름은 같아도 되고 달라도 된다.
 
 
 if __name__ == '__main__':
