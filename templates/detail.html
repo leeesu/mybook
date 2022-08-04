@@ -39,7 +39,7 @@
 
         #trip-box {
             width: 95%;
-            max-width: 600px;
+            max-width: 900px;
             padding: 20px;
             margin: 100px auto;
 
@@ -64,7 +64,7 @@
         }
 
         #desc {
-            font-size: 11px;
+            font-size: 15px;
         }
 
         #subtitle {
@@ -75,7 +75,25 @@
 
     </style>
     <script>
+        let title = '{{ title }}'
+        let star = $('#star').val()
+        let review = $('#review').val()
 
+        function save_review() {
+            $.ajax({
+                type: 'POST',
+                url: '/movie',
+                data: { title_give:title,
+                        review_give: review,
+                         star_give: star
+                },
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.href="/detail/{{ title }}
+                }
+            });
+
+        }
 
     </script>
 </head>
@@ -100,27 +118,27 @@
                 </div>
                 </div>
             {% endfor %}
-<div class="posting-box" id="post-box">
-    <div class="form-floating mb-3">
-        <input id="review" type="text" class="form-control" placeholder="name@example.com">
-    </div>
-    <div class="input-group mb-3">
-        <label class="input-group-text" for="inputGroupSelect01">별점</label>
-        <select class="form-select" id="star">
-            <option selected>-- 선택하기 --</option>
-            <option value="1">⭐</option>
-            <option value="2">⭐⭐</option>
-            <option value="3">⭐⭐⭐</option>
-            <option value="4">⭐⭐⭐⭐</option>
-            <option value="5">⭐⭐⭐⭐⭐</option>
-        </select>
-
-    </div>
-    <button type="button" class="btn btn-outline-success" id="review-posting" onclick="save_review()">등록하기</button>
-</div>
-<div class="review-box" id="review-list">
-    <div class="border border-light p-2 mb-2 border-opacity-25" id="review-area"></div>
-</div>
+{#<div class="posting-box" id="post-box">#}
+{#    <div class="form-floating mb-3">#}
+{#        <input id="review" type="text" class="form-control" placeholder="name@example.com">#}
+{#    </div>#}
+{#    <div class="input-group mb-3">#}
+{#        <label class="input-group-text" for="inputGroupSelect01">별점</label>#}
+{#        <select class="form-select" id="star">#}
+{#            <option selected>-- 선택하기 --</option>#}
+{#            <option value="1">⭐</option>#}
+{#            <option value="2">⭐⭐</option>#}
+{#            <option value="3">⭐⭐⭐</option>#}
+{#            <option value="4">⭐⭐⭐⭐</option>#}
+{#            <option value="5">⭐⭐⭐⭐⭐</option>#}
+{#        </select>#}
+{##}
+{#    </div>#}
+{#    <button type="button" class="btn btn-outline-success" id="review-posting" onclick="save_review()">등록하기</button>#}
+{#</div>#}
+{#<div class="review-box" id="review-list">#}
+{#    <div class="border border-light p-2 mb-2 border-opacity-25" id="review-area"></div>#}
+{#</div>#}
 
 </div>
 </body>
