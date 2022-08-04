@@ -20,6 +20,7 @@ client = MongoClient('mongodb+srv://pisi:0124@cluster0.pvzlt.mongodb.net/?retryW
 db = client.users
 
 
+
 @app.route('/')
 def home():
     token_receive = request.cookies.get('mytoken')
@@ -163,6 +164,20 @@ def detail(keyword):
 
     return render_template("detail.html", response=response, title=keyword)  # parameter를 넣어서 보내준다.
     # 앞의 변수이름 render parameter이름은 같아도 되고 달라도 된다.
+
+@app.route('/save_review', methods=['POST'])
+def save_review():
+    title_receive = request.form['title_give']
+    star_receive = request.form['star_give']
+    review_receive = request.form['comment_give']
+    put_db = {
+        'title': title_receive,
+        'star': star_receive,
+        'review': review_receive
+    }
+
+    db.bookreview.insert_one(put_db)
+    return jsonify({'msg': '저장완료'})
 
 
 if __name__ == '__main__':
