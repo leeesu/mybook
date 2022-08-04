@@ -38,8 +38,7 @@
         .title {
             font-weight: 800;
             font-size: 4rem;
-            font-family: 'Poppins', sans-serif;
-            margin
+            font-family: 'Poppins', sans-serif
 
         }
 
@@ -103,7 +102,7 @@
                 success: function (response) {
                     if (response['result'] == 'success') {
                         $.cookie('mytoken', response['token'], {path: '/'});
-                        window.location.replace("/")
+                        window.location.replace("/main")
                     } else {
                         alert(response['msg'])
                     }
@@ -237,6 +236,7 @@
                 BOOKTRIP으로 만나는 세상의 모든 책 이야기
             </p>
         </div>
+    </div>
 </section>
 <section class="section">
     <div class="container">
